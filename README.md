@@ -4,14 +4,20 @@ Created by **William Liu** ([starchlorddotcom](https://github.com/starchlorddotc
 
 A free, local-first Paper plugin that turns server slowdowns into evidence and next steps. Version 0.2.0 is a deliberately narrow portfolio MVP: recommendations, before/after comparisons, and a repeatable solo demo. No account, hosted service, subscription, telemetry, player punishment, or automatic world changes.
 
-New in 0.2: healthy/slow evidence contrast, chunk-level entity scans, incident history, workload-aware comparisons and offline HTML reports. See [upgrade and investigation guide](docs/UPGRADE-0.2.md).
+New in 0.2: healthy/slow evidence contrast, chunk-level entity scans, incident history, workload-aware comparisons and offline HTML reports. See the upgrade and investigation guide (`docs/UPGRADE-0.2.md` in the source ZIP).
+
+## Download
+
+**[Download Lag Doctor 0.2.0](https://github.com/starchlorddotcom/LagDoctor/releases/tag/v0.2.0)** — the plugin JAR, complete source ZIP, and SHA-256 checksums.
+
+This repository currently distributes the source as `LagDoctor-0.2.0-source.zip`. It contains the Java source, Gradle wrapper, 18 tests, documentation, and example reports. Extract that archive before following build instructions or opening the documentation paths below.
 
 ## Install
 
 Target: **Paper 1.21.11, Java 21+**. This is a pinned demo compatibility target, not the newest Paper release. Built with Java 21 bytecode. Spigot, Folia, Bedrock, modpacks and other Minecraft versions are not supported in this release. Do not change an existing world's Minecraft version just to try this plugin; use the disposable local demo instead.
 
-1. Build with a JDK supported by Gradle 9.2.1 (JDK 21 or 25 recommended): `./gradlew test build` (`gradlew.bat` on Windows).
-2. Copy `build/libs/LagDoctor-0.2.0.jar` to your Paper server's `plugins/` directory.
+1. Download the prebuilt JAR from the release above, or extract the source ZIP and build with a JDK supported by Gradle 9.2.1 (JDK 21 or 25 recommended): `./gradlew test build` (`gradlew.bat` on Windows).
+2. Copy the downloaded JAR (or your built `build/libs/LagDoctor-0.2.0.jar`) to your Paper server's `plugins/` directory.
 3. Restart the server. Wait about a minute for a full report.
 4. Run `/lagdoctor report` as an operator, or `lagdoctor report` in the console. Alias: `/ld`. Permission: `lagdoctor.admin` (default: operators).
 
@@ -41,13 +47,13 @@ Paper already bundles spark. Use `/spark profiler start --timeout 60` during a s
 
 ## Private solo demo
 
-See [the local demo guide](docs/LOCAL-DEMO.md) for setup, two bounded lag scenarios, expected results, and a before/after walkthrough. No public server or other players needed.
+See the local demo guide (`docs/LOCAL-DEMO.md` in the source ZIP) for setup, two bounded lag scenarios, expected results, and a before/after walkthrough. No public server or other players needed.
 
 ## Implementation and verification
 
 The tick listener writes to a fixed 200-value buffer. Every 200 ticks it sorts that buffer, reads JVM counters and Paper world counts, and retains at most 30 aggregate windows. The continuous collector does not iterate entities, inspect inventories, load chunks, or profile stack traces. The opt-in `/ld scan` separately inspects bounded samples of already-loaded entity chunks; see the upgrade guide for limits and measured cost. Exports run asynchronously from immutable snapshots. This design limits overhead; it is not a production-scale overhead benchmark.
 
-`./gradlew test` exercises aggregation, time normalization, reset behavior, diagnostic thresholds, healthy/slow contrasts, uncertain/unresolved diagnoses, workload comparisons, incident recovery/retention, ranking, export escaping and location redaction. See [validation notes](docs/VALIDATION.md) for actual build/runtime results and limitations.
+`./gradlew test` exercises aggregation, time normalization, reset behavior, diagnostic thresholds, healthy/slow contrasts, uncertain/unresolved diagnoses, workload comparisons, incident recovery/retention, ranking, export escaping and location redaction. See the validation notes (`docs/VALIDATION.md` in the source ZIP) for actual build/runtime results and limitations.
 
 ## Verified API references
 
@@ -57,6 +63,6 @@ The tick listener writes to a fixed 200-value buffer. Every 200 ticks it sorts t
 - [Paper's bundled spark and profiling guide](https://docs.papermc.io/paper/profiling/)
 - [Paper downloads service](https://docs.papermc.io/misc/downloads-service/)
 
-See [design notes](docs/DESIGN.md) for the product rationale, data path and next milestones.
+See the design notes (`docs/DESIGN.md` in the source ZIP) for the product rationale, data path and next milestones.
 
 License: MIT; see LICENSE. Minecraft and Paper are separate projects with their own terms.
