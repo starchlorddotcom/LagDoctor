@@ -1,0 +1,8 @@
+# Windows contain 200 observed ticks. At 20 TPS this is about 10 seconds.
+# Retain 6 windows for reports; limits are clamped to keep memory bounded.
+report-windows: 6
+# Alert to console after three consecutive slow windows; 5 minute cooldown.
+console-alerts: true
+# Intentionally delays ticks. For disposable LOCAL demo servers only.
+# Also requires server-ip=127.0.0.1 and a console command.
+local-demo-enabled: false

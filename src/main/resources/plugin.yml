@@ -1,0 +1,17 @@
+name: LagDoctor
+version: 0.3.0
+author: William Liu
+website: https://github.com/starchlorddotcom/LagDoctor
+main: dev.lagdoctor.LagDoctorPlugin
+api-version: '26.3'
+description: Evidence-led server performance diagnosis and before/after comparisons.
+commands:
+  lagdoctor:
+    description: Diagnose performance, save a baseline, or compare changes.
+    aliases: [ld]
+    permission: lagdoctor.admin
+    usage: /lagdoctor [report|baseline|compare|scan|hotspots|incidents|export|demo]
+permissions:
+  lagdoctor.admin:
+    description: View server diagnostics and manage baselines.
+    default: op

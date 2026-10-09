@@ -1,0 +1,7 @@
+.gradle/
+build/
+.local-server/
+.local-server-*/
+*.log
+.DS_Store
+__pycache__/

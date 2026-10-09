@@ -1,0 +1,17 @@
+=== Lag Doctor 0.1.0 | 6/6 windows ===
+Captured 2026-10-02T15:57:19.003Z | Paper 1.21.11
+60.0s | 1200 ticks | effective TPS 20.00 | mean 0.14 ms | worst window p95 0.29 ms | max 6.16 ms | >50ms 0.0%
+W1: 10.0s, mean 0.2ms, p95 0.3ms, slow 0.0%, GC 0%, heap 24%, entities 0, chunks 0, loads 0 (new 0), players 0
+W2: 10.0s, mean 0.2ms, p95 0.3ms, slow 0.0%, GC 0%, heap 25%, entities 0, chunks 0, loads 0 (new 0), players 0
+W3: 10.0s, mean 0.1ms, p95 0.3ms, slow 0.0%, GC 0%, heap 25%, entities 0, chunks 0, loads 0 (new 0), players 0
+W4: 10.0s, mean 0.2ms, p95 0.3ms, slow 0.0%, GC 0%, heap 25%, entities 0, chunks 0, loads 0 (new 0), players 0
+W5: 10.0s, mean 0.1ms, p95 0.2ms, slow 0.0%, GC 0%, heap 25%, entities 0, chunks 0, loads 0 (new 0), players 0
+W6: 10.0s, mean 0.1ms, p95 0.2ms, slow 0.0%, GC 0%, heap 25%, entities 0, chunks 0, loads 0 (new 0), players 0
+HEALTHY WINDOW: no sustained tick slowdown detected; isolated spikes may still occur.
+Change one setting at a time; compare equal windows with similar player counts and workload. Correlation is not causation; client/network lag is outside this report.
+
+BEFORE: 76.6s | 1200 ticks | effective TPS 15.66 | mean 56.42 ms | worst window p95 70.29 ms | max 70.49 ms | >50ms 84.8%
+AFTER:  60.0s | 1200 ticks | effective TPS 20.00 | mean 0.14 ms | worst window p95 0.29 ms | max 6.16 ms | >50ms 0.0%
+Mean tick change: -56.28 ms (lower). This does not establish what caused the change.
+DEMO comparison: includes intentional tick delays.
+Keep exploration, farms, players and other plugins comparable. Repeat before claiming an improvement.

@@ -1,0 +1,22 @@
+=== Lag Doctor 0.3.0 | 6/6 windows ===
+Captured 2026-10-03T03:37:40.557Z | Paper 26.3
+60.0s | 1200 ticks | effective TPS 20.00 | mean 8.08 ms | worst window p95 122.08 ms | max 130.50 ms | >50ms 6.2%
+W1: 10.0s, mean 0.7ms, p95 0.9ms, slow 0.0%, GC 0%, heap 16%, entities 2, chunks 25, loads 0 (new 0), players 0
+W2: 10.0s, mean 0.7ms, p95 1.0ms, slow 0.0%, GC 0%, heap 16%, entities 2, chunks 25, loads 0 (new 0), players 0
+W3: 10.0s, mean 9.1ms, p95 121.3ms, slow 7.0%, GC 0%, heap 16%, entities 2, chunks 25, loads 0 (new 0), players 0 [DEMO]
+W4: 10.0s, mean 12.7ms, p95 121.4ms, slow 10.0%, GC 0%, heap 16%, entities 2, chunks 25, loads 0 (new 0), players 0 [DEMO]
+W5: 10.0s, mean 12.6ms, p95 121.2ms, slow 10.0%, GC 0%, heap 17%, entities 2, chunks 25, loads 0 (new 0), players 0 [DEMO]
+W6: 10.0s, mean 12.7ms, p95 122.1ms, slow 10.0%, GC 0%, heap 17%, entities 2, chunks 25, loads 0 (new 0), players 0 [DEMO]
+SLOWDOWN: 3/6 windows met mean >50 ms or at least 10% ticks >50 ms.
+DEMO DATA: intentional local tick delays occurred. Do not use this report to diagnose real workload.
+ASSOCIATION ANALYSIS SUPPRESSED: intentional demo delays confound cause ranking.
+CAUSE UNRESOLVED: measured signals do not explain the slowdown. Plugin tasks, redstone, saves, host contention, and other work need profiling.
+NEXT: run /spark profiler start --timeout 60 during the issue. Inspect the busiest main-thread stacks; Lag Doctor does not access spark internals or attribute plugin blame.
+Change one setting at a time; compare equal windows with similar player counts and workload. Correlation is not causation; client/network lag is outside this report.
+Wait for a full report of new windows after saving the baseline; overlapping data is not a comparison.
+INCIDENTS: restart clears history; recovery requires two healthy windows. Means cover slow windows only.
+2026-10-03T03:37:10.557Z -> 2026-10-03T03:37:40.557Z | OPEN | 3 slow windows | mean 12.66ms, max 130.50ms [DEMO]
+ENTITY SCAN 2026-10-03T03:36:53.708Z | selected 25, inspected 25, skipped 0 | collection 7.89ms, max step 4.17ms
+Sample of loaded chunks at scan time, not a full census or CPU profile. Missing chunks may contain larger concentrations.
+world chunk [0, 0] (block X/Z 0, 0) | 2 entities | ENTITY_TICKING | ARMOR_STAND 2
+Investigate dense chunks in person and check spark entity-ticking stacks before changing a farm. Counts alone do not prove cost.

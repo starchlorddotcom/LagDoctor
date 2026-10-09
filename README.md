@@ -1,72 +1,88 @@
 # Lag Doctor
 
-Created by **William Liu** ([starchlorddotcom](https://github.com/starchlorddotcom)).
+**Change one thing. Check whether your Paper server's tick performance improved.**
 
-A free, local-first Paper plugin that turns server slowdowns into evidence and next steps. Version 0.3.0 is a deliberately narrow portfolio MVP: recommendations, before/after comparisons, and a repeatable solo demo. No account, hosted service, subscription, telemetry, player punishment, or automatic world changes.
+Lag Doctor is a free Paper plugin for tick-spike reports, loaded-entity scans and before/after comparisons. It helps you collect evidence during a slowdown and compare fresh measurements after an intervention. Reports stay on your server as readable TXT and offline HTML files.
 
-New in 0.3: Paper 26.3 / Java 25 support. See 26.3 upgrade guide (`docs/UPGRADE-0.3.md` in the source ZIP). Developed with substantial AI assistance.
-
-Features from 0.2: healthy/slow evidence contrast, chunk-level entity scans, incident history, workload-aware comparisons and offline HTML reports. See upgrade and investigation guide (`docs/UPGRADE-0.2.md` in the source ZIP).
+Created by **William Liu** ([starchlorddotcom](https://github.com/starchlorddotcom)), with substantial AI assistance. MIT licensed. Beta software; no telemetry, accounts, subscriptions or automatic world changes.
 
 ## Download
 
-- **Paper 26.3 / Java 25+: [Lag Doctor 0.3.0 Beta](https://github.com/starchlorddotcom/LagDoctor/releases/tag/v0.3.0)**
-- **Paper 1.21.11 / Java 21+: [Lag Doctor 0.2.0 Beta](https://github.com/starchlorddotcom/LagDoctor/releases/tag/v0.2.0)**
-- [Hangar plugin listing](https://hangar.papermc.io/starchlorddotcom/LagDoctor)
+| Your server | Plugin | Java |
+|---|---|---|
+| Paper 26.3 | [Lag Doctor 0.3.0 Beta on Hangar](https://hangar.papermc.io/starchlorddotcom/LagDoctor/versions/0.3.0) · [GitHub release](https://github.com/starchlorddotcom/LagDoctor/releases/tag/v0.3.0) | 25+ |
+| Paper 1.21.11 | [Lag Doctor 0.2.0 Beta](https://github.com/starchlorddotcom/LagDoctor/releases/tag/v0.2.0) | 21+ |
 
-Download the plugin JAR and the matching complete source ZIP from the release assets. The repository root still contains the original 0.2.0 distribution files; use the releases above for 0.3.0. The named `LagDoctor-0.3.0-source.zip` contains the Java source, Gradle wrapper, tests, documentation and example reports. Extract it before building or opening the documentation paths below. GitHub's automatic Source code archives are not the complete 0.3.0 package.
+Download the **JAR** for your existing server version; building from source is optional. Spigot, Folia, Bedrock, modpacks and other Minecraft versions are not supported by these releases. The 0.3.0 build was validated on Paper 26.3 beta build 143. Use a test copy first; you do not need to change your world's Minecraft version to try the matching plugin.
 
-## Install
+## Try it
 
-Target: **Paper 26.3, Java 25+**. Built against pinned Paper API `26.3.build.143-beta` with Java 25 bytecode. Paper 26.3 is currently beta. For Paper 1.21.11 use Lag Doctor 0.2.0 instead. Spigot, Folia, Bedrock, modpacks and other Minecraft versions are not supported in this release. Do not change an existing world's Minecraft version just to try this plugin; use the disposable local demo instead.
+1. Stop Paper. Remove any older LagDoctor JAR from `plugins/`, put the downloaded JAR there, then restart. Install only one LagDoctor version.
+2. Wait about a minute of active server ticks, then run `/ld report` as an operator.
+3. Run `/ld export` to save TXT and HTML reports in `plugins/LagDoctor/reports/`.
 
-1. Build with JDK 25 and Gradle 9.2.1: `./gradlew test build` (`gradlew.bat` on Windows).
-2. Stop the server, remove any older LagDoctor JAR, and copy `build/libs/LagDoctor-0.3.0.jar` to your Paper server's `plugins/` directory.
-3. Restart the server. Wait about a minute for a full report.
-4. Run `/lagdoctor report` as an operator, or `lagdoctor report` in the console. Alias: `/ld`. Permission: `lagdoctor.admin` (default: operators).
+In the server console, omit the slash: `lagdoctor report` and `lagdoctor export`. Permission: `lagdoctor.admin`, granted to operators by default. `/lagdoctor` and `/ld` are aliases.
 
-## Use
+**Did the report make your next investigation step clearer?** [Tell me what worked or confused you in the tester thread](https://github.com/starchlorddotcom/LagDoctor/issues/1). Your Paper version, the server activity and a default report export are useful starting points. Review a report before sharing it.
 
-| Command | Result |
+Reports use six windows of 200 ticks by default: approximately a minute at 20 TPS, longer during lag. Empty servers configured to pause will stop collecting ticks while paused.
+
+## Investigate a slowdown
+
+| Command | What you get |
 |---|---|
-| `/ld report` | Recent tick performance, per-window evidence, explanations and safe next steps |
-| `/ld baseline` | Save a full report in memory before changing one thing |
-| `/ld compare` | Compare the baseline with a complete set of newer windows; overlapping data is rejected |
-| `/ld scan` / `/ld scan stop` | Start or cancel a bounded scan of already-loaded entity chunks |
-| `/ld hotspots` | Show the last scan with admin-only world/chunk locations |
-| `/ld incidents [latest]` | Recent episodes and optionally the latest episode's retained evidence |
-| `/ld export [locations]` | Write text + HTML reports; locations excluded unless requested |
+| `/ld report` | Mean and maximum tick time, slow-tick percentage, worst per-window p95, diagnostic clues and next steps |
+| `/ld scan` | A bounded sample of already-loaded entity chunks; no new chunks are loaded |
+| `/ld scan stop` | Cancel a scan |
+| `/ld hotspots` | The last scan, including admin-only world/chunk locations |
+| `/ld incidents latest` | Recent slowdown episodes and retained evidence for the latest one |
+| `/ld baseline` | Save a complete report in memory before changing one thing |
+| `/ld compare` | Compare with a complete set of newer windows; overlapping data is rejected |
+| `/ld export` | Save local TXT and HTML reports with locations omitted |
 
-Exports are text/HTML pairs in ten rotating slots; keep a copy of results you want to retain. Baselines are shared across admins and reset on restart or replacement. Default exports contain counts, times and server version, but no player identifiers, world names or coordinates. `/ld export locations` explicitly includes scan locations; admin scan output shows them directly. Nothing is uploaded. If you run spark, its report/sharing behavior is separate.
+For a comparison, first save `/ld baseline`, change one setting or workload factor, then wait for six complete new windows with the default configuration before running `/ld compare`. Keep players, exploration, farms and other activity as comparable as possible. A lower tick time measures a change; it does not establish what caused it.
 
-Three consecutive slow windows trigger a console notification with a five-minute cooldown. `config.yml` controls alerts and report length (3–30 windows; default 6). Restart after config edits. A window is **200 observed ticks**, approximately ten seconds at 20 TPS and longer during lag. Reports show actual elapsed time. Empty servers may pause unless configured otherwise.
+Use alongside Paper's bundled spark: `/spark profiler start --timeout 60` captures stacks during the problem. Lag Doctor does not access undocumented spark internals or identify a guilty plugin from counts alone.
 
-## What the evidence means
+## See real output from the local demo
 
-Tick duration comes from Paper's tick-end event. A window is slow if its mean exceeds 50 ms, or at least 10% of ticks exceed 50 ms. Reports include mean, maximum, slow-tick fraction, and the **worst per-window p95**, not a falsely combined report p95. Effective TPS is observed ticks divided by elapsed time, capped at 20.
+![Lag Doctor 0.3.0 offline report from a local synthetic demo](docs/images/demo-report.png)
 
-Rules look for coincident GC activity, new chunk activity, chunk loading, or a large loaded entity population. Evidence is ranked using healthy/slow contrast when sufficient windows exist; constant background populations are down-ranked. Confidence is explicitly limited: counts do not measure CPU cost; GC counters do not precisely measure pauses; a high heap sample is not a leak diagnosis. Thresholds are initial heuristics, not universal server limits. Unexplained slowdowns are reported as unresolved. Lag Doctor does not establish malicious intent, identify guilty players/plugins, diagnose hardware conclusively, or measure client FPS/network latency.
+*Actual local demo output after intentional tick delays stopped. These values are not a production benchmark or a claim of automatic lag removal.*
 
-Paper already bundles spark. Use `/spark profiler start --timeout 60` during a slowdown to investigate main-thread stacks, then use Lag Doctor to compare a single controlled change. There is no dependency on undocumented spark APIs.
+- [Paper 26.3 report showing entity counts, with locations omitted](docs/examples/v0.3/idle-redacted.txt)
+- [Paper 26.3 before/after report from an intentional spike demo](docs/examples/v0.3/recovery-redacted.txt)
+- [Offline HTML version of that comparison](docs/examples/v0.3/recovery-redacted.html) — download and open locally
+- [Run the private demo yourself](docs/LOCAL-DEMO.md)
 
-## Private solo demo
+The synthetic demo intentionally delays ticks, then stops the delay. Complete injected windows showed about 121–122 ms per-window p95 and 10% slow ticks. This verifies detection and comparison behavior; it is not a claim that Lag Doctor automatically removed lag or improved a production server.
 
-See the local demo guide (`docs/LOCAL-DEMO.md` in the source ZIP) for setup, two bounded lag scenarios, expected results, and a before/after walkthrough. No public server or other players needed.
+## What it can and cannot tell you
 
-## Implementation and verification
+Tick duration comes from Paper's tick-end event. A window is slow when its mean exceeds 50 ms or at least 10% of ticks exceed 50 ms. Effective TPS is observed ticks divided by elapsed time, capped at 20. The reported p95 summary is the **worst per-window p95**, not a combined percentile for the entire report.
 
-The tick listener writes to a fixed 200-value buffer. Every 200 ticks it sorts that buffer, reads JVM counters and Paper world counts, and retains at most 30 aggregate windows. The continuous collector does not iterate entities, inspect inventories, load chunks, or profile stack traces. The opt-in `/ld scan` separately inspects bounded samples of already-loaded entity chunks; see the upgrade guide for limits and measured cost. Exports run asynchronously from immutable snapshots. This design limits overhead; it is not a production-scale overhead benchmark.
+Heuristics look for GC activity, chunk loading/generation and large loaded entity populations near slow windows. Healthy/slow contrasts help down-rank background activity. These are clues, not proof: entity counts do not measure CPU cost, GC counters do not precisely measure pauses, and a high heap sample does not diagnose a leak. Unexplained slowdowns remain unresolved.
 
-`./gradlew test` exercises aggregation, time normalization, reset behavior, diagnostic thresholds, healthy/slow contrasts, uncertain/unresolved diagnoses, workload comparisons, incident recovery/retention, ranking, export escaping and location redaction. See validation notes (`docs/VALIDATION.md` in the source ZIP) for actual build/runtime results and limitations.
+Lag Doctor does not diagnose client FPS, network latency, malicious players, a guilty plugin or hardware faults conclusively. Large-server overhead and real-world cause attribution have not been validated. It does not punish players or change worlds automatically.
 
-## Verified API references
+## Privacy and retention
 
-- [Paper project setup](https://docs.papermc.io/paper/dev/project-setup/)
-- [Paper 26.3 tick-end event](https://jd.papermc.io/paper/26.3/com/destroystokyo/paper/event/server/ServerTickEndEvent.html)
-- [Paper 26.3 World API](https://jd.papermc.io/paper/26.3/org/bukkit/World.html)
-- [Paper's bundled spark and profiling guide](https://docs.papermc.io/paper/profiling/)
-- [Paper downloads service](https://docs.papermc.io/misc/downloads-service/)
+Nothing is uploaded by Lag Doctor. Default exports contain counts, times and server version, without player identifiers, world names or coordinates. `/ld export locations` explicitly includes scan locations; admin scan output shows them directly. Spark has its own separate report-sharing behavior.
 
-See design notes (`docs/DESIGN.md` in the source ZIP) for the product rationale, data path and next milestones.
+Exports rotate through ten TXT/HTML pairs; copy reports you want to retain. Baselines are shared across admins and reset on replacement or restart. Incident history also resets on restart. Three consecutive slow windows trigger a console alert with a five-minute cooldown. `config.yml` controls alerts and report length (3–30 windows, default 6); restart after changing it.
 
-License: MIT; see LICENSE. Minecraft and Paper are separate projects with their own terms.
+## Build and validation
+
+For 0.3.0, use JDK 25 and the included Gradle 9.2.1 wrapper:
+
+```sh
+./gradlew test build
+```
+
+On Windows, use `gradlew.bat test build`. The JAR is `build/libs/LagDoctor-0.3.0.jar`. The pinned API is `26.3.build.143-beta`; bytecode targets Java 25. The source is browsable in this repository. The matching complete source ZIP is also attached to each GitHub release. Historical release tags and their automatic Source code archives predate the source import; use the named `LagDoctor-0.3.0-source.zip` asset for the exact released package. Original 0.2.0 distribution files remain in the root; use the versioned download links above to install.
+
+**Recorded validation:** all 18 automated tests passed on 2026-10-03. A fresh local Paper 26.3 build 143 server exercised loading, reports, scan counts/cancellation, exports, overlapping-baseline rejection, synthetic spike detection, incident recovery and comparisons. These are functional checks, not a production-scale performance benchmark. [Read the evidence and remaining limits](docs/VALIDATION.md).
+
+The continuous collector uses a fixed 200-value tick buffer and retains at most 30 aggregate windows. It does not iterate entities or profile stack traces. The optional scan separately samples up to 256 already-loaded entity chunks across at most 16 worlds. Exports run asynchronously from immutable snapshots. [Design notes](docs/DESIGN.md) · [0.3 upgrade guide](docs/UPGRADE-0.3.md) · [0.2 investigation guide](docs/UPGRADE-0.2.md).
+
+License: [MIT](LICENSE). Minecraft and Paper are separate projects with their own terms.

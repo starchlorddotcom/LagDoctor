@@ -1,0 +1,20 @@
+=== Lag Doctor 0.1.0 | 6/6 windows ===
+Captured 2026-10-02T15:58:29.002Z | Paper 1.21.11
+60.0s | 1200 ticks | effective TPS 20.00 | mean 12.20 ms | worst window p95 120.66 ms | max 125.36 ms | >50ms 10.0%
+W1: 10.0s, mean 12.2ms, p95 120.5ms, slow 10.0%, GC 0%, heap 25%, entities 0, chunks 0, loads 0 (new 0), players 0 [DEMO]
+W2: 10.0s, mean 12.2ms, p95 120.6ms, slow 10.0%, GC 0%, heap 26%, entities 0, chunks 0, loads 0 (new 0), players 0 [DEMO]
+W3: 10.0s, mean 12.2ms, p95 120.4ms, slow 10.0%, GC 0%, heap 26%, entities 0, chunks 0, loads 0 (new 0), players 0 [DEMO]
+W4: 10.0s, mean 12.3ms, p95 120.6ms, slow 10.0%, GC 0%, heap 26%, entities 0, chunks 0, loads 0 (new 0), players 0 [DEMO]
+W5: 10.0s, mean 12.2ms, p95 120.7ms, slow 10.0%, GC 0%, heap 26%, entities 0, chunks 0, loads 0 (new 0), players 0 [DEMO]
+W6: 10.0s, mean 12.2ms, p95 120.4ms, slow 10.0%, GC 0%, heap 26%, entities 0, chunks 0, loads 0 (new 0), players 0 [DEMO]
+SLOWDOWN: 6/6 windows exceeded mean 50 ms or 10% ticks over 50 ms.
+DEMO DATA: intentional local tick delays occurred. Do not use this report to diagnose real workload.
+CAUSE UNRESOLVED: measured signals do not explain the slowdown. Plugin tasks, redstone, saves, host contention, and other work need profiling.
+NEXT: run /spark profiler start --timeout 60 during the issue. Inspect the busiest main-thread stacks; Lag Doctor does not access spark internals or attribute plugin blame.
+Change one setting at a time; compare equal windows with similar player counts and workload. Correlation is not causation; client/network lag is outside this report.
+
+BEFORE: 76.6s | 1200 ticks | effective TPS 15.66 | mean 56.42 ms | worst window p95 70.29 ms | max 70.49 ms | >50ms 84.8%
+AFTER:  60.0s | 1200 ticks | effective TPS 20.00 | mean 12.20 ms | worst window p95 120.66 ms | max 125.36 ms | >50ms 10.0%
+Mean tick change: -44.22 ms (lower). This does not establish what caused the change.
+DEMO comparison: includes intentional tick delays.
+Keep exploration, farms, players and other plugins comparable. Repeat before claiming an improvement.

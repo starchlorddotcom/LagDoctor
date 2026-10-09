@@ -1,0 +1,16 @@
+=== Lag Doctor 0.1.0 | 6/6 windows ===
+Captured 2026-10-02T15:55:59.003Z | Paper 1.21.11
+76.6s | 1200 ticks | effective TPS 15.66 | mean 56.42 ms | worst window p95 70.29 ms | max 70.49 ms | >50ms 84.8%
+W1: 13.4s, mean 66.9ms, p95 70.3ms, slow 100.0%, GC 0%, heap 23%, entities 0, chunks 0, loads 0 (new 0), players 0 [DEMO]
+W2: 13.3s, mean 66.5ms, p95 68.3ms, slow 100.0%, GC 0%, heap 23%, entities 0, chunks 0, loads 0 (new 0), players 0 [DEMO]
+W3: 13.3s, mean 66.4ms, p95 67.4ms, slow 100.0%, GC 0%, heap 23%, entities 0, chunks 0, loads 0 (new 0), players 0 [DEMO]
+W4: 13.3s, mean 66.6ms, p95 70.2ms, slow 100.0%, GC 0%, heap 24%, entities 0, chunks 0, loads 0 (new 0), players 0 [DEMO]
+W5: 13.3s, mean 66.3ms, p95 67.2ms, slow 100.0%, GC 0%, heap 24%, entities 0, chunks 0, loads 0 (new 0), players 0 [DEMO]
+W6: 10.0s, mean 5.9ms, p95 66.1ms, slow 8.5%, GC 0%, heap 24%, entities 0, chunks 0, loads 0 (new 0), players 0 [DEMO]
+SLOWDOWN: 5/6 windows exceeded mean 50 ms or 10% ticks over 50 ms.
+DEMO DATA: intentional local tick delays occurred. Do not use this report to diagnose real workload.
+CAUSE UNRESOLVED: measured signals do not explain the slowdown. Plugin tasks, redstone, saves, host contention, and other work need profiling.
+NEXT: run /spark profiler start --timeout 60 during the issue. Inspect the busiest main-thread stacks; Lag Doctor does not access spark internals or attribute plugin blame.
+Change one setting at a time; compare equal windows with similar player counts and workload. Correlation is not causation; client/network lag is outside this report.
+
+Wait for a full report of new windows after saving the baseline; overlapping data is not a comparison.

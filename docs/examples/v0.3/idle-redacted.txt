@@ -1,0 +1,17 @@
+=== Lag Doctor 0.3.0 | 6/6 windows ===
+Captured 2026-10-03T03:37:00.557Z | Paper 26.3
+60.0s | 1200 ticks | effective TPS 19.98 | mean 1.01 ms | worst window p95 1.50 ms | max 311.65 ms | >50ms 0.1%
+W1: 10.0s, mean 0.5ms, p95 0.7ms, slow 0.0%, GC 0%, heap 36%, entities 0, chunks 0, loads 0 (new 0), players 0
+W2: 10.1s, mean 2.5ms, p95 1.5ms, slow 0.5%, GC 0%, heap 15%, entities 2, chunks 25, loads 25 (new 24), players 0
+W3: 10.0s, mean 1.0ms, p95 1.3ms, slow 0.0%, GC 0%, heap 15%, entities 2, chunks 25, loads 0 (new 0), players 0
+W4: 10.0s, mean 0.7ms, p95 1.0ms, slow 0.0%, GC 0%, heap 16%, entities 2, chunks 25, loads 0 (new 0), players 0
+W5: 10.0s, mean 0.7ms, p95 0.9ms, slow 0.0%, GC 0%, heap 16%, entities 2, chunks 25, loads 0 (new 0), players 0
+W6: 10.0s, mean 0.7ms, p95 1.0ms, slow 0.0%, GC 0%, heap 16%, entities 2, chunks 25, loads 0 (new 0), players 0
+HEALTHY WINDOW: no sustained tick slowdown detected; isolated spikes may still occur.
+Change one setting at a time; compare equal windows with similar player counts and workload. Correlation is not causation; client/network lag is outside this report.
+INCIDENTS: restart clears history; recovery requires two healthy windows. Means cover slow windows only.
+No slowdown incidents recorded this session.
+ENTITY SCAN 2026-10-03T03:36:53.708Z | selected 25, inspected 25, skipped 0 | collection 7.89ms, max step 4.17ms
+Sample of loaded chunks at scan time, not a full census or CPU profile. Missing chunks may contain larger concentrations.
+[location omitted] | 2 entities | ENTITY_TICKING | ARMOR_STAND 2
+Investigate dense chunks in person and check spark entity-ticking stacks before changing a farm. Counts alone do not prove cost.
